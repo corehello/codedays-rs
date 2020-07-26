@@ -1,4 +1,4 @@
-use crate::subscriber::handlers::index;
+use super::handlers::index;
 use actix_web::web;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
