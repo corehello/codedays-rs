@@ -37,8 +37,11 @@ async fn main() -> std::io::Result<()> {
             .data(AppState { log: log.clone() })
             .wrap(middleware::Logger::default())
             .service(web::resource("/").route(web::get().to(index)))
-            .configure(kb::urls::configure)
-            .configure(subscriber::urls::configure)
+            .service(
+                web::scope("/api/v1")
+                    .configure(kb::urls::configure)
+                    .configure(subscriber::urls::configure),
+            )
     });
     // 自动加载
     server = if let Some(l) = listenfd.take_tcp_listener(0).unwrap() {
