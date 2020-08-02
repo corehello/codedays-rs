@@ -1,5 +1,8 @@
+use crate::config::Config;
 use base64;
 use fernet;
+use mailgun_v3::email::{send_email, EmailAddress, Message, MessageBody};
+use mailgun_v3::Credentials;
 
 ///加密字符串
 fn encrypt(plaintext: String, with_key: String) -> String {
@@ -18,6 +21,31 @@ fn decrypt(encrypted_text: String, with_key: String) -> String {
         .decrypt(std::str::from_utf8(&ciphertext).unwrap())
         .unwrap();
     String::from_utf8(origin_text).unwrap()
+}
+
+// TODO: aync
+///发送邮件
+pub fn send_an_email(
+    subject: String,
+    message: String,
+    html_message: String,
+    recipient: String,
+) -> bool {
+    let config = Config::from_env().unwrap();
+    let key = config.mailgun.api_key;
+    let domain = config.mailgun.domain;
+    let creds = Credentials::new(&key, &domain);
+    let recipient = EmailAddress::address(&recipient);
+    let message = Message {
+        to: vec![recipient],
+        subject: subject,
+        body: MessageBody::HtmlAndText(html_message, message),
+        ..Default::default()
+    };
+    let sender = EmailAddress::name_address("CodeDays", "mail@codedays.app");
+
+    let res = send_email(&creds, &sender, message);
+    res.is_ok()
 }
 
 #[cfg(test)]
