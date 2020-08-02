@@ -68,15 +68,4 @@ mod tests {
         let encrypted = String::from("Z0FBQUFBQmZKaGxyaHVnQ2pJMWNkc0o2RG9mbGpuTWlQNXBadTFGbDlWQzdJLXQ4WDVnU3EzREdMZkFCWnAzREtVTXQzQ2pmdW1VSldpdmQwSl9vZGtobndNOE1VR1V1WHc9PQ==");
         assert_eq!(plaintext, decrypt(encrypted, key))
     }
-
-    #[test]
-    pub fn test_for_send_mail() {
-        let ok = send_an_email(
-            String::from("Test"),
-            String::from("Test"),
-            String::from("Test"),
-            String::from("qwh005007@gmail.com"),
-        );
-        assert_eq!(ok, true)
-    }
 }
