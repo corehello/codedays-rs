@@ -1,6 +1,8 @@
 codedays-rs
 ===
 
+[![Coverage Status](https://coveralls.io/repos/github/overfive/codedays-rs/badge.svg?branch=develop)](https://coveralls.io/github/overfive/codedays-rs?branch=develop)
+
 ## 使用
 
 ```shell
