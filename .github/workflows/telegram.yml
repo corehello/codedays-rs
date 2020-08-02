@@ -1,8 +1,7 @@
 name: telegram
 
-on:
-  push:
-    branches: [ master ]  
+on: [push, pull_request, issues, release]
+
 jobs:
   build:    
     runs-on: ubuntu-latest    
