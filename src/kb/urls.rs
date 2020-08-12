@@ -1,4 +1,4 @@
-use super::handlers::index;
+use super::handlers::{self, index};
 use actix_web::web;
 
 pub fn configure(cfg: &mut web::ServiceConfig) {
@@ -12,8 +12,10 @@ pub fn configure(cfg: &mut web::ServiceConfig) {
         )
         // 单个问题
         .service(
-            web::scope("/problems")
-                .route("/{id}", web::get().to(index))
-                .route("/{id}", web::delete().to(index)),
-        );
+            web::resource("/problems/{id}")
+                .route(web::get().to(index))
+                .route(web::delete().to(index)),
+        )
+        // tag
+        .service(web::resource("/tags").route(web::post().to(handlers::create_tag)));
 }
