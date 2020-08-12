@@ -12,9 +12,16 @@ pub struct ServerConfig {
 }
 
 #[derive(Deserialize)]
+pub struct MailgunCredential {
+    pub api_key: String,
+    pub domain: String,
+}
+
+#[derive(Deserialize)]
 pub struct Config {
     pub server: ServerConfig,
     // pub pg: deadpool_postgres::Config,
+    pub mailgun: MailgunCredential,
 }
 
 impl Config {
