@@ -10,18 +10,18 @@ table! {
         id -> Int4,
         title -> Varchar,
         content -> Text,
-        updated_time -> Timestamptz,
-        difficulty -> Int2,
+        updated_time -> Date,
+        difficulty -> Int4,
         order -> Int4,
-        category_id -> Int4,
+        category -> Int4,
     }
 }
 
 table! {
-    problem_tags (id) {
+    problem_tag (id) {
         id -> Int4,
-        problem_id -> Int4,
-        tag_id -> Int4,
+        problem -> Int4,
+        tag -> Int4,
     }
 }
 
@@ -29,8 +29,8 @@ table! {
     solution (id) {
         id -> Int4,
         content -> Text,
-        level -> Int2,
-        problem_id -> Int4,
+        level -> Int4,
+        problem -> Int4,
     }
 }
 
@@ -42,15 +42,15 @@ table! {
     }
 }
 
-joinable!(problem -> category (category_id));
-joinable!(problem_tags -> problem (problem_id));
-joinable!(problem_tags -> tag (tag_id));
-joinable!(solution -> problem (problem_id));
+joinable!(problem -> category (category));
+joinable!(problem_tag -> problem (problem));
+joinable!(problem_tag -> tag (tag));
+joinable!(solution -> problem (problem));
 
 allow_tables_to_appear_in_same_query!(
     category,
     problem,
-    problem_tags,
+    problem_tag,
     solution,
     tag,
 );
