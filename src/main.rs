@@ -1,5 +1,7 @@
 #[macro_use]
 extern crate diesel;
+#[macro_use]
+extern crate log;
 
 mod config;
 mod kb;
@@ -10,31 +12,26 @@ use crate::config::Config;
 use actix_web::{middleware, web, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
 use listenfd::ListenFd;
-use slog;
-use slog::{debug, info};
 
 #[derive(Clone)]
-pub struct AppState {
-    pub log: slog::Logger,
-}
+pub struct AppState {}
 
 async fn index() -> impl Responder {
-    let log = Config::configure_log();
-    info!(log, "Hello world");
+    info!("Hello world");
     HttpResponse::Ok().body("Hello World")
 }
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
+    env_logger::init();
 
     let config = Config::from_env().unwrap();
     let mut listenfd = ListenFd::from_env();
-    let log = Config::configure_log();
-    debug!(log, "Starting server at http://");
+    debug!("Starting server at http://");
     let mut server = HttpServer::new(move || {
         App::new()
-            .data(AppState { log: log.clone() })
+            // .data(AppState { log: log.clone() })
             .wrap(middleware::Logger::default())
             .service(web::resource("/").route(web::get().to(index)))
             .service(
