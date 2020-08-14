@@ -16,8 +16,8 @@ pub struct MailgunCredential {
 #[derive(Deserialize)]
 pub struct Config {
     pub server: ServerConfig,
-    // pub pg: deadpool_postgres::Config,
     pub mailgun: MailgunCredential,
+    pub database_url: String,
 }
 
 impl Config {

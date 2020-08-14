@@ -6,9 +6,9 @@ codedays-rs
 ## 使用
 
 ```shell
-echo "DATABASE_URL=postgres://postgres:dayscode@localhost/codedays?sslmode=disable" > .env
-
-cargo install diesel_cli --features "postgres" --no-default-features
+cp .env.example .env
+# 安装 diesel
+cargo install diesel_cli --features="barrel-migrations,barrel/sqlite3,sqlite"
 diesel migration run
 
 cargo run
